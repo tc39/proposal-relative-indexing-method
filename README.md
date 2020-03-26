@@ -48,6 +48,8 @@ Or we could just add `.item()` to ObservableArray itself, as it's a proxy wrappe
 The ideal solution for us, instead, is to add `.item()` to the Array prototype itself,
 and for completeness/consistency, to the other indexable types that support the same general suite of index-related properties like `.slice()`.
 
+As such, the name `.item()` is a requirement of this proposal; changing it to something else would still help authors, but would fail to satisfy this requirement.
+
 Proposed Edits
 --------------
 
