@@ -43,11 +43,11 @@ A recent addition to the WebIDL spec is `ObservableArray<>` (thanks @domenic!), 
 
 We plan to start using this for most APIs that want to expose a list of something, but we'd also like to, when possible, upgrade *older* APIs to use this as well; the fact that many older APIs use bespoke interfaces that badly and incompletely copy the Array interface is a consistent source of frustration for web authors.
 
-(For example, `document.querySelectorAll()` returns, not an Array, but a NodeList, which supports indexed properties and `.length`, and so can be treated as an Array in basic ways, but has only a tiny selection of the Array prototype methods: just `.forEach()` and the iterator methods `.keys()`, `.values()`, and `.entries()`. Popular methods like `.map()` are missing, requiring authors to write code like `[...document.querySelectorAll("a")].map(foo)`.)
+(For example, `document.querySelectorAll()` returns, not an Array, but a NodeList, which supports indexed properties and `.length`, and so can be treated as an Array in basic ways, but has only a tiny selection of the Array prototype methods. Popular methods like `.map()` are missing, requiring authors to write code like `[...document.querySelectorAll("a")].map(foo)`.)
 
 This upgrade can *almost* be done in-place, just swapping the various bespoke interfaces with ObservableArray, avoiding breaking anything that doesn't explicitly test the value's type.  There is *one* exception: all of them have a `.item()` method, which returns the value at the passed index.
 
-(This is a remnant of the very old (1990s-era) belief that Java was a reasonable language to use on the web, and so APIs were designed in a "lowest common denominator" style for use in both JS and Java. Java didn't have the ability to indexed properties at the time unless you were actually a Java array, so the .item() method was a compromise that worked identically in both languages.)
+(This is a remnant of the very old (1990s-era) belief that Java was a reasonable language to use on the web, and so APIs were designed in a "lowest common denominator" style for use in both JS and Java. Java didn't have the ability to use indexed properties at the time unless you were actually a Java array, so the .item() method was a compromise that worked identically in both languages.)
 
 It's highly likely there is code that relies on using `.item()` on these interfaces, and we don't want to risk breakage there.
 
@@ -58,12 +58,12 @@ Or we could just add `.item()` to ObservableArray itself, as it's a proxy wrappe
 The ideal solution for us, instead, is to add `.item()` to the Array prototype itself,
 and for completeness/consistency, to the other indexable types that support the same general suite of index-related properties like `.slice()`.
 
-As such, the name `.item()` is a requirement of this proposal; changing it to something else would still help authors, but would fail to satisfy this requirement.
+As such, the name `.item()` is a requirement of this proposal; changing it to something else would still help authors, but would fail to satisfy the DOM needs.
 
 Possible Issues
 ---------------
 
-The obvious looming issue with this, as with any addition to the built-ins, is that the name `.item()` is already added to these classes' prototypes by a framework with an incompatible definition, and added using one of the fragile patterns that avoids clobbering built-in names, so that code depending on the framework's definition will then break when it's instead given the new built-in definition.
+The obvious looming issue with this, as with any addition to the built-ins, is the possibility that the name `.item()` is already added to these classes' prototypes by a framework with an incompatible definition, and added using one of the fragile patterns that avoids clobbering built-in names, so that code depending on the framework's definition will then break when it's instead given the new built-in definition.
 
 I'm prepared to eat my words, but I suspect that any library adding a `.item()` method to Array or the other indexables is going to be giving it compatible or identical semantics to what's outlined here; I can't imagine what else such a method name could possibly correspond to.
 
