@@ -6,6 +6,15 @@ A TC39 proposal to add a .item() method to all the basic indexable classes (Arra
 
 **Champions: Tab Atkins, Shu-yu Guo**
 
+ToC
+----
+
+1. [Rationale](#rationale)
+	1. [Existing Methods](#existing-methods)
+	2. [DOM Justifications](#dom-justifications)
+2. [Possible Issues](#possible-issues)
+3. [Proposed Edits](#proposed-edits)
+
 Rationale
 ---------
 
