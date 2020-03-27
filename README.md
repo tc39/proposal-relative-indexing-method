@@ -50,6 +50,13 @@ and for completeness/consistency, to the other indexable types that support the 
 
 As such, the name `.item()` is a requirement of this proposal; changing it to something else would still help authors, but would fail to satisfy this requirement.
 
+Possible Issues
+---------------
+
+The obvious looming issue with this, as with any addition to the built-ins, is that the name `.item()` is already added to these classes' prototypes by a framework with an incompatible definition, and added using one of the fragile patterns that avoids clobbering built-in names, so that code depending on the framework's definition will then break when it's instead given the new built-in definition.
+
+I'm prepared to eat my words, but I suspect that any library adding a `.item()` method to Array or the other indexables is going to be giving it compatible or identical semantics to what's outlined here; I can't imagine what else such a method name could possibly correspond to.
+
 Proposed Edits
 --------------
 
