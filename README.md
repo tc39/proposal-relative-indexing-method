@@ -67,6 +67,8 @@ The obvious looming issue with this, as with any addition to the built-ins, is t
 
 I'm prepared to eat my words, but I suspect that any library adding a `.item()` method to Array or the other indexables is going to be giving it compatible or identical semantics to what's outlined here; I can't imagine what else such a method name could possibly correspond to.
 
+There's good evidence that we're probably safe here, tho: none of MooTools, Prototype, or Ext add `.item()` to Array; those are generally the most dangerous libraries for this kind of addition (see: squooshgate), so if we're safe there it's much more likely we'll be safe in general.
+
 Proposed Edits
 --------------
 
