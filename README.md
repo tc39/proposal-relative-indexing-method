@@ -91,5 +91,5 @@ function item(n) {
 
 Array.prototype.item = item;
 String.prototype.item = item;
-Uint8Array.__proto__.prototype.item = item;
+Object.getPrototypeOf(Uint8Array).prototype.item = item;
 ```
