@@ -14,6 +14,7 @@ ToC
 	2. [DOM Justifications](#dom-justifications)
 		1. [Convertable Interfaces](#convertable-interfaces)
 2. [Possible Issues](#possible-issues)
+	1. [Possible DOM Compat Issues](#possible-dom-compat-issues)
 3. [Proposed Edits](#proposed-edits)
 4. [Polyfill](#polyfill)
 
@@ -83,6 +84,36 @@ The obvious looming issue with this, as with any addition to the built-ins, is t
 I'm prepared to eat my words, but I suspect that any library adding a `.item()` method to Array or the other indexables is going to be giving it compatible or identical semantics to what's outlined here; I can't imagine what else such a method name could possibly correspond to.
 
 There's good evidence that we're probably safe here, tho: none of MooTools, Prototype, or Ext add `.item()` to Array; those are generally the most dangerous libraries for this kind of addition (see: squooshgate), so if we're safe there it's much more likely we'll be safe in general.
+
+### Possible DOM Compat Issues
+
+The .item() method defined by all of the interfaces [listed above](#convertable-interfaces) has a common structure:
+
+```webidl
+	SomeType? item(unsigned long index);
+```
+
+If you follow the definition chain in WebIDL, you end up with a conversion algorithm for `unsigned long` into internal numbers that *mostly* matches what JS does for indexes in `.slice()`, with a few differences around the edges:
+
+* WebIDL treats Infinity and -Infinity as 0, while JS leaves them as is.
+* WebIDL modulos the value by 2^32 (using JS's "modulo" math op, so negatives become positive), while JS does not.
+* If the index is out of range, WebIDL returns `null`, while JS returns `undefined`.
+
+The first means that code that is accidentally passing infinities into `.item()` and relying on it returning the item at index 0 will break, as it will now get `undefined`. I find this very unlikely to be problematic.
+
+The second means that code passing extremely large numbers that are *just a little bit* larger than 2^32 (so the modulo brings them back into a reasonable index) and relying on that to return something from the list will break, as it will now get `undefined`.  I also find this very unlikely to be problematic.
+
+The second also means that code relying on small negative numbers being modulo'd into the vicinity of 4 billion, and thus returning `null`, will break, as it will now return items from near the end of the list.  I find this slightly likely, and believe we will need to do some instrumentation/testing to ensure it happens below our threshold for breakage.  (There is a small chance that such code is *expecting* to recieve a value from the end of the list and is currently broken, and will be fixed by this change.)
+
+The third means that code which is testing for the presence of an item by *explicitly* comparing the return value with `null` will break, as it will now receive `undefined` and think a value was returned.  I also find this slightly likely. In my experience, however, most such code is written either as `== null` or simply uses the truthiness of the return value (since a valid index will always return an object, which is truthy); both of these kinds of tests will continue to work after the change.
+
+---
+
+We could potentially preview any of these changes before attempting to accept this proposal fully, so we know whether it's realistic to do such an upgrade, and thus whether the `.item()` name it a hard requirement or can be freely bikeshedded.
+
+In particular, testing negative indexes would be fairly simple, just requiring a change to `signed long` and an extra line in the algorithms of the methods.
+
+Testing returning `undefined` is also plausible; tho still slightly awkward to *express* in WebIDL (requiring the return type to be written as `any`), it's a tiny change to the algorithms of the methods.
 
 Proposed Edits
 --------------
