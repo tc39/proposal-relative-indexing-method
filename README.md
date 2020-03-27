@@ -14,6 +14,7 @@ ToC
 	2. [DOM Justifications](#dom-justifications)
 2. [Possible Issues](#possible-issues)
 3. [Proposed Edits](#proposed-edits)
+4. [Polyfill](#polyfill)
 
 Rationale
 ---------
@@ -70,3 +71,23 @@ Proposed Edits
 --------------
 
 TODO, but basically just steal the existing code from `.slice()` on those classes and simplify. Literally all the work we want `.item()` to do is already done by `.slice()`.
+
+Polyfill
+--------
+
+```js
+function item(n) {
+	// toInteger abstract op
+	n = Math.trunc(n) || 0;
+
+	// No need to clamp to within the length, as .slice() does;
+	// that's to prevent the array-building loop from going too far.
+	// We *want* to return undef if you exceed the bounds, like [] does.
+	if(n >= 0) return this[n];
+	return this[this.length+n];
+}
+
+Array.prototype.item = item;
+String.prototype.item = item;
+Uint8Array.__proto__.prototype.item = item;
+```
