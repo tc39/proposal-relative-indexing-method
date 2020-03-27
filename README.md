@@ -12,6 +12,7 @@ ToC
 1. [Rationale](#rationale)
 	1. [Existing Methods](#existing-methods)
 	2. [DOM Justifications](#dom-justifications)
+		1. [Convertable Interfaces](#convertable-interfaces)
 2. [Possible Issues](#possible-issues)
 3. [Proposed Edits](#proposed-edits)
 4. [Polyfill](#polyfill)
@@ -59,6 +60,20 @@ The ideal solution for us, instead, is to add `.item()` to the Array prototype i
 and for completeness/consistency, to the other indexable types that support the same general suite of index-related properties like `.slice()`.
 
 As such, the name `.item()` is a requirement of this proposal; changing it to something else would still help authors, but would fail to satisfy the DOM needs.
+
+#### Convertable Interfaces
+
+Assuming this proposal is adopted, the following legacy interfaces should be upgradable into ObservableArray:
+
+* [NodeList](https://dom.spec.whatwg.org/#nodelist)
+* Possibly [DOMTokenList](https://dom.spec.whatwg.org/#domtokenlist) as a subclass
+* [CSSRuleList](https://drafts.csswg.org/cssom/#cssrulelist)
+* [StyleSheetList](https://drafts.csswg.org/cssom/#stylesheetlist)
+* Possibly [CSSStyleDeclaration](https://drafts.csswg.org/cssom/#cssstyledeclaration) and [MediaList](https://drafts.csswg.org/cssom/#medialist), as subclasses
+
+(maybe others, list is ongoing)
+
+
 
 Possible Issues
 ---------------
