@@ -135,7 +135,12 @@ function item(n) {
 	return this[this.length+n];
 }
 
-Array.prototype.item = item;
-String.prototype.item = item;
-Object.getPrototypeOf(Uint8Array).prototype.item = item;
+// Other TypedArray constructors omitted for brevity.
+for (let C in [Array, String, Uint8Array]) {
+    Object.defineProperty(C.prototype, "item",
+                          { value: item,
+                            writable: true,
+                            enumerable: false,
+                            configurable: true });
+}
 ```
