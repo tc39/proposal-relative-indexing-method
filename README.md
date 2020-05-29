@@ -136,7 +136,7 @@ function item(n) {
 }
 
 // Other TypedArray constructors omitted for brevity.
-for (let C in [Array, String, Uint8Array]) {
+for (let C of [Array, String, Uint8Array]) {
     Object.defineProperty(C.prototype, "item",
                           { value: item,
                             writable: true,
