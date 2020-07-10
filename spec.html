@@ -1,0 +1,73 @@
+<!doctype html>
+<meta charset="utf8">
+<script src="ecmarkup.js"></script>
+<link rel="stylesheet" href="ecmarkup.css">
+<title>item()</title>
+<pre class=metadata>
+  title: item()
+  status: proposal
+  stage: 1
+  location: https://github.com/tabatkins/proposal-item-method
+  copyright: false
+  contributors: Tab Atkins, Shu-yu Guo
+</pre>
+<emu-intro id="intro">
+  <h1>item()</h1>
+  <p>We provide a new method, `item()`, that is on the prototype of the built-in indexable objects: Array, String, and TypedArrays objects. The method supports relative indexing from the end when passed a negative index.</p>
+</emu-intro>
+
+<emu-clause id="sec-array-prototype-additions">
+  <h1>Additions to Properties of the Array Prototype Object</h1>
+
+  <emu-clause id="sec-array.prototype.item">
+    <h1>Array.prototype.item ( _index_ )</h1>
+    <emu-alg>
+      1. Let _O_ be ? ToObject(*this* value).
+      1. Let _len_ be ? LengthOfArrayLike(_O_).
+      1. Let _relativeIndex_ be ? ToInteger(_index_).
+      1. If _relativeIndex_ &ge; 0, then
+        1. Let _k_ be _relativeIndex_.
+      1. Else,
+        1. Let _k_ be max((_len_ + _relativeIndex_), 0).
+      1. Return ? Get(_O_, ! ToString(_k_)).
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-string-prototype-additions">
+  <h1>Additions to Properties of the String Prototype Object</h1>
+
+  <emu-clause id="sec-string.prototype.item">
+    <h1>String.prototype.item ( _index_ )</h1>
+    <emu-alg>
+      1. Let _O_ be ? RequireObjectCoercible(*this* value).
+      1. Let _S_ be ? ToString(_O_).
+      1. Let _len_ be the length of _S_.
+      1. Let _relativeIndex_ be ? ToInteger(_index_).
+      1. If _relativeIndex_ &ge; 0, then
+        1. Let _k_ be _relativeIndex_.
+      1. Else,
+        1. Let _k_ be max((_len_ + _relativeIndex_), 0).
+      1. Return the String value containing the code unit at _k_.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-%typedarray.prototype%-additions">
+  <h1>Additions to Properties of the %TypedArray.prototype% Object</h1>
+
+  <emu-clause id="sec-%typedarray%.prototype.item">
+    <h1>%TypedArray%.prototype.item ( _index_ )</h1>
+    <emu-alg>
+      1. Let _O_ be the *this* value.
+      1. Perform ? ValidateTypedArray(_O_).
+      1. Let _len_ be _O_.[[ArrayLength]].
+      1. Let _relativeIndex_ be ? ToInteger(_index_).
+      1. If _relativeIndex_ &ge; 0, then
+        1. Let _k_ be _relativeIndex_.
+      1. Else,
+        1. Let _k_ be max((_len_ + _relativeIndex_), 0).
+      1. Return ? Get(_O_, ! ToString(_k_)).
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
