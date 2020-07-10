@@ -6,6 +6,8 @@ A TC39 proposal to add a .item() method to all the basic indexable classes (Arra
 
 **Champions: Tab Atkins, Shu-yu Guo**
 
+**Proposed Spec Text:** <https://tabatkins.github.io/proposal-item-method/>
+
 ToC
 ----
 
@@ -118,7 +120,7 @@ Testing returning `undefined` is also plausible; tho still slightly awkward to *
 Proposed Edits
 --------------
 
-TODO, but basically just steal the existing code from `.slice()` on those classes and simplify. Literally all the work we want `.item()` to do is already done by `.slice()`.
+<https://tabatkins.github.io/proposal-item-method/>
 
 Polyfill
 --------
