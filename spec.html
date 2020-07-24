@@ -28,7 +28,8 @@
       1. If _relativeIndex_ &ge; 0, then
         1. Let _k_ be _relativeIndex_.
       1. Else,
-        1. Let _k_ be max(_len_ + _relativeIndex_, 0).
+        1. Let _k_ be _len_ + _relativeIndex_.
+      1. If _k_ &lt; 0 or _k_ &ge; _len_, then return *undefined*.
       1. Return ? Get(_O_, ! ToString(_k_)).
     </emu-alg>
   </emu-clause>
@@ -47,7 +48,8 @@
       1. If _relativeIndex_ &ge; 0, then
         1. Let _k_ be _relativeIndex_.
       1. Else,
-        1. Let _k_ be max(_len_ + _relativeIndex_, 0).
+        1. Let _k_ be _len_ + _relativeIndex_.
+      1. If _k_ &lt; 0 or _k_ &ge; _len_, then return *undefined*.
       1. Return the String value of length 1, containing one code unit from _S_, namely the code unit at _k_ position.
     </emu-alg>
   </emu-clause>
@@ -66,7 +68,8 @@
       1. If _relativeIndex_ &ge; 0, then
         1. Let _k_ be _relativeIndex_.
       1. Else,
-        1. Let _k_ be max(_len_ + _relativeIndex_, 0).
+        1. Let _k_ be _len_ + _relativeIndex_.
+      1. If _k_ &lt; 0 or _k_ &ge; _len_, then return *undefined*.
       1. Return ? Get(_O_, ! ToString(_k_)).
     </emu-alg>
   </emu-clause>
