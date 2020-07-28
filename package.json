@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "proposal-item-method",
+  "version": "1.0.0",
+  "description": "ECMAScript `item` method proposal",
+  "repository": "tc39-tranfer/proposal-item-method",
+  "author": "ECMA TC39",
+  "license": "SEE LICENSE IN https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
+  "homepage": "https://tc39-transfer.github.io/proposal-item-method/",
+  "scripts": {
+    "build": "ecmarkup spec.html docs/index.html"
+  },
+  "dependencies": {
+    "ecmarkup": "^3.12.0"
+  },
+  "devDependencies": {
+    "@alrra/travis-scripts": "^3.0.0"
+  }
+}
