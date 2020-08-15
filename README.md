@@ -125,16 +125,17 @@ Proposed Edits
 Polyfill
 --------
 
+(Rough polyfill; correctly implements the behavior for well-behaved objects, but not guaranteed to match spec behavior precisely for edge cases, like calling the method on `undefined`.)
+
 ```js
 function item(n) {
-	// toInteger abstract op
+	// ToInteger() abstract op
 	n = Math.trunc(n) || 0;
-
-	// No need to clamp to within the length, as .slice() does;
-	// that's to prevent the array-building loop from going too far.
-	// We *want* to return undef if you exceed the bounds, like [] does.
+	// Allow negative indexing from the end
 	if(n < 0) n += this.length;
+	// OOB access is guaranteed to return undefined
 	if(n < 0 || n >= this.length) return undefined;
+	// Otherwise, this is just normal property access
 	return this[n];
 }
 
