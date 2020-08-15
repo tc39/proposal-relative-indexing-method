@@ -1,0 +1,3 @@
+docs/index.html  -diff merge=ours
+docs/spec.js     -diff merge=ours
+docs/spec.css    -diff merge=ours
