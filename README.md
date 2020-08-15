@@ -133,8 +133,9 @@ function item(n) {
 	// No need to clamp to within the length, as .slice() does;
 	// that's to prevent the array-building loop from going too far.
 	// We *want* to return undef if you exceed the bounds, like [] does.
-	if(n >= 0) return this[n];
-	return this[this.length+n];
+	if(n < 0) n += this.length;
+	if(n < 0 || n >= this.length) return undefined;
+	return this[n];
 }
 
 // Other TypedArray constructors omitted for brevity.
