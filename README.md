@@ -6,7 +6,7 @@ A TC39 proposal to add a .item() method to all the basic indexable classes (Arra
 
 **Champions: Tab Atkins, Shu-yu Guo**
 
-**Proposed Spec Text:** <https://tc39-transfer.github.io/proposal-item-method/>
+**Proposed Spec Text:** <https://tc39.github.io/proposal-item-method/>
 
 ToC
 ----
@@ -120,7 +120,7 @@ Testing returning `undefined` is also plausible; tho still slightly awkward to *
 Proposed Edits
 --------------
 
-<https://tc39-transfer.github.io/proposal-item-method/>
+<https://tc39.github.io/proposal-item-method/>
 
 Polyfill
 --------
