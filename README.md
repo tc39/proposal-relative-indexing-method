@@ -73,6 +73,7 @@ Assuming this proposal is adopted, the following legacy interfaces should be upg
 * [CSSRuleList](https://drafts.csswg.org/cssom/#cssrulelist)
 * [StyleSheetList](https://drafts.csswg.org/cssom/#stylesheetlist)
 * Possibly [CSSStyleDeclaration](https://drafts.csswg.org/cssom/#cssstyledeclaration) and [MediaList](https://drafts.csswg.org/cssom/#medialist), as subclasses
+* [FileList](https://w3c.github.io/FileAPI/#dfn-filelist)
 
 (maybe others, list is ongoing)
 
