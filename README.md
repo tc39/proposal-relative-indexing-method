@@ -37,7 +37,7 @@ This not only solves the long-standing request in an easy way, but also happens 
 
 Currently, to access a value from the end of an indexable object, the common practice is to write `arr[arr.length - N]`, where N is the Nth item from the end (starting at 1).  This requires naming the indexable twice, additionally adds 7 more characters for the `.length`, and is hostile to anonymous values; you can't use this technique to grab the last item of the return value of a function unless you first store it in a temp variable.
 
-Another method that avoids some of those drawbacks, but has some performance drawbacks of its own, is `arr.slice(-N)[0]`.  This avoid repeating the name, and thus is friendly to anonymous values as well. However, the spelling is a little weird, particularly the trailing `[0]` (since `.slice()` returns an Array). Also, a temporary array is created with all the contents of the source from the desired item to the end, only to be immediately thrown away after retrieving the first item.
+Another method that avoids some of those drawbacks, but has some performance drawbacks of its own, is `arr.slice(-N)[0]`.  This avoids repeating the name, and thus is friendly to anonymous values as well. However, the spelling is a little weird, particularly the trailing `[0]` (since `.slice()` returns an Array). Also, a temporary array is created with all the contents of the source from the desired item to the end, only to be immediately thrown away after retrieving the first item.
 
 Note, however, the fact that `.slice()` (and related methods like `.splice()`) already have the notion of negative indexes, and resolve them exactly as desired.
 
