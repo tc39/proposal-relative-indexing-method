@@ -1,19 +1,18 @@
 {
   "private": true,
   "name": "proposal-item-method",
-  "version": "1.0.0",
-  "description": "ECMAScript `item` method proposal",
-  "repository": "tc39-tranfer/proposal-item-method",
-  "author": "ECMA TC39",
-  "license": "SEE LICENSE IN https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
-  "homepage": "https://tc39-transfer.github.io/proposal-item-method/",
+  "description": "Proposal for a .item() method on all the built-in indexables",
   "scripts": {
+    "start": "npm run build -- --watch",
     "build": "ecmarkup spec.html docs/index.html"
   },
-  "dependencies": {
-    "ecmarkup": "^3.12.0"
+  "homepage": "https://github.com/tc39/template-for-proposals#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/template-for-proposals.git"
   },
+  "license": "MIT",
   "devDependencies": {
-    "@alrra/travis-scripts": "^3.0.0"
+    "ecmarkup": "^3.25.3"
   }
 }
