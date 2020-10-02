@@ -149,3 +149,7 @@ for (let C of [Array, String, Uint8Array]) {
                             configurable: true });
 }
 ```
+
+## Implementations
+
+* Spec-compliant polyfills: [Array.prototype.item](https://www.npmjs.com/package/array.prototype.item), [String.prototype.item](https://www.npmjs.com/package/string.prototype.item)
