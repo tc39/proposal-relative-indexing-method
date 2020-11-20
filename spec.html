@@ -2,25 +2,25 @@
 <meta charset="utf8">
 <script src="ecmarkup.js"></script>
 <link rel="stylesheet" href="ecmarkup.css">
-<title>item()</title>
+<title>Relative Indexing Method</title>
 <pre class=metadata>
-  title: item()
+  title: Relative Indexing Method
   status: proposal
-  stage: 2
-  location: https://github.com/tabatkins/proposal-item-method
+  stage: 3
+  location: https://github.com/tabatkins/proposal-relative-indexing-method
   copyright: false
   contributors: Tab Atkins, Shu-yu Guo
 </pre>
 <emu-intro id="intro">
-  <h1>item()</h1>
-  <p>We provide a new method, `item()`, that is on the prototype of the built-in indexable objects: Array, String, and TypedArrays objects. The method supports relative indexing from the end when passed a negative index.</p>
+  <h1>Relative Indexing Method</h1>
+  <p>We provide a new method, `at()`, that is on the prototype of the built-in indexable objects: Array, String, and TypedArrays objects. The method supports relative indexing from the end when passed a negative index.</p>
 </emu-intro>
 
 <emu-clause id="sec-array-prototype-additions">
   <h1>Additions to Properties of the Array Prototype Object</h1>
 
-  <emu-clause id="sec-array.prototype.item">
-    <h1>Array.prototype.item ( _index_ )</h1>
+  <emu-clause id="sec-array.prototype.at">
+    <h1>Array.prototype.at ( _index_ )</h1>
     <emu-alg>
       1. Let _O_ be ? ToObject(*this* value).
       1. Let _len_ be ? LengthOfArrayLike(_O_).
@@ -38,8 +38,8 @@
 <emu-clause id="sec-string-prototype-additions">
   <h1>Additions to Properties of the String Prototype Object</h1>
 
-  <emu-clause id="sec-string.prototype.item">
-    <h1>String.prototype.item ( _index_ )</h1>
+  <emu-clause id="sec-string.prototype.at">
+    <h1>String.prototype.at ( _index_ )</h1>
     <emu-alg>
       1. Let _O_ be ? RequireObjectCoercible(*this* value).
       1. Let _S_ be ? ToString(_O_).
@@ -58,8 +58,8 @@
 <emu-clause id="sec-%typedarray.prototype%-additions">
   <h1>Additions to Properties of the %TypedArray.prototype% Object</h1>
 
-  <emu-clause id="sec-%typedarray%.prototype.item">
-    <h1>%TypedArray%.prototype.item ( _index_ )</h1>
+  <emu-clause id="sec-%typedarray%.prototype.at">
+    <h1>%TypedArray%.prototype.at ( _index_ )</h1>
     <emu-alg>
       1. Let _O_ be the *this* value.
       1. Perform ? ValidateTypedArray(_O_).
