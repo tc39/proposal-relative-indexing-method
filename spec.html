@@ -35,6 +35,30 @@
   </emu-clause>
 </emu-clause>
 
+<emu-clause id="sec-array.prototype-modifications">
+  <h1>Modifications to Properties of the Array Prototype Object</h1>
+
+  <emu-clause id="sec-array.prototype-@@unscopables-modification">
+    <h1>Array.prototype [ @@unscopables ]</h1>
+    <p>The initial value of the @@unscopables data property is an object created by the following steps:</p>
+    <emu-alg>
+      1. Let _unscopableList_ be ! OrdinaryObjectCreate(*null*).
+      1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"at"*, *true*).</ins>
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"copyWithin"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"entries"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"fill"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"find"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"findIndex"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flat"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flatMap"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"includes"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"keys"*, *true*).
+      1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"values"*, *true*).
+      1. Return _unscopableList_.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
+
 <emu-clause id="sec-string-prototype-additions">
   <h1>Additions to Properties of the String Prototype Object</h1>
 
