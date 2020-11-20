@@ -85,7 +85,7 @@ for (let C of [Array, String, Uint8Array]) {
 
 ## Web Incompatibility History
 
-The original iteration of this proposal proposed the name of the method to be `.item()`. Unfortunately, this was found out to be not web compatible due. Libraries, notably YUI2 and YUI3, were duck-typing objects to be DOM collections based on the presence of a `.item` property. Please see [#28](https://github.com/tc39/proposal-relative-indexing-method/issues/28), [#31](https://github.com/tc39/proposal-relative-indexing-method/issues/31), and [#32](https://github.com/tc39/proposal-relative-indexing-method/issues/32) for more details.
+The original iteration of this proposal proposed the name of the method to be `.item()`. Unfortunately, this was found out to be not web compatible. Libraries, notably YUI2 and YUI3, were duck-typing objects to be DOM collections based on the presence of a `.item` property. Please see [#28](https://github.com/tc39/proposal-relative-indexing-method/issues/28), [#31](https://github.com/tc39/proposal-relative-indexing-method/issues/31), and [#32](https://github.com/tc39/proposal-relative-indexing-method/issues/32) for more details.
 
 Captured below is the original motivation for choosing the `.item()` name and the original concerns.
 
