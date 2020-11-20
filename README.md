@@ -1,24 +1,25 @@
-# Proposal for a `.item()` method on all the built-in indexables
+# Proposal for an `.at()` method on all the built-in indexables
 
-A TC39 proposal to add a .item() method to all the basic indexable classes (Array, String, TypedArray)
+A TC39 proposal to add an .at() method to all the basic indexable classes (Array, String, TypedArray)
 
 **Stage: 3**
 
 **Champions: Tab Atkins, Shu-yu Guo**
 
-**Proposed Spec Text:** <https://tc39.github.io/proposal-item-method/>
+**Proposed Spec Text:** <https://tc39.github.io/proposal-relative-indexing-method/>
 
 ToC
 ----
 
 1. [Rationale](#rationale)
 	1. [Existing Methods](#existing-methods)
-	2. [DOM Justifications](#dom-justifications)
+1. [Proposed Edits](#proposed-edits)
+1. [Polyfill](#polyfill)
+1. [Web Incompatibility History](#web-incompatibility-history)
+	1. [DOM Justifications](#dom-justifications)
 		1. [Convertable Interfaces](#convertable-interfaces)
-2. [Possible Issues](#possible-issues)
-	1. [Possible DOM Compat Issues](#possible-dom-compat-issues)
-3. [Proposed Edits](#proposed-edits)
-4. [Polyfill](#polyfill)
+    1. [Possible Issues](#possible-issues)
+	    1. [Possible DOM Compat Issues](#possible-dom-compat-issues)
 
 Rationale
 ---------
@@ -29,7 +30,7 @@ Unfortunately, JS's language design makes this impossible. The `[]` syntax is no
 
 There have been many attempts to work around this; the most recent is a restricted proposal to make it easier to access just the last element of an array (<https://github.com/tc39/proposal-array-last>) via a `.last` property.
 
-This proposal instead adopts a more common approach, and suggests adding a `.item()` method to Array, String, and TypedArray, which takes an integer value and returns the item at that index, with the negative-number semantics as described above.
+This proposal instead adopts a more common approach, and suggests adding a `.at()` method to Array, String, and TypedArray, which takes an integer value and returns the item at that index, with the negative-number semantics as described above.
 
 This not only solves the long-standing request in an easy way, but also happens to solve a separate issue for [various DOM APIs, described below](#dom-justifications).
 
@@ -40,6 +41,53 @@ Currently, to access a value from the end of an indexable object, the common pra
 Another method that avoids some of those drawbacks, but has some performance drawbacks of its own, is `arr.slice(-N)[0]`. This avoids repeating the name, and thus is friendly to anonymous values as well. However, the spelling is a little weird, particularly the trailing `[0]` (since `.slice()` returns an Array). Also, a temporary array is created with all the contents of the source from the desired item to the end, only to be immediately thrown away after retrieving the first item.
 
 Note, however, the fact that `.slice()` (and related methods like `.splice()`) already have the notion of negative indexes, and resolve them exactly as desired.
+
+Possible Issues
+---------------
+
+`.at()` might also be web incompatible for reasons yet unknown.
+
+Proposed Edits
+--------------
+
+<https://tc39.github.io/proposal-relative-indexing-method/>
+
+Polyfill
+--------
+
+(Rough polyfill; correctly implements the behavior for well-behaved objects, but not guaranteed to match spec behavior precisely for edge cases, like calling the method on `undefined`.)
+
+```js
+function at(n) {
+	// ToInteger() abstract op
+	n = Math.trunc(n) || 0;
+	// Allow negative indexing from the end
+	if(n < 0) n += this.length;
+	// OOB access is guaranteed to return undefined
+	if(n < 0 || n >= this.length) return undefined;
+	// Otherwise, this is just normal property access
+	return this[n];
+}
+
+// Other TypedArray constructors omitted for brevity.
+for (let C of [Array, String, Uint8Array]) {
+    Object.defineProperty(C.prototype, "at",
+                          { value: at,
+                            writable: true,
+                            enumerable: false,
+                            configurable: true });
+}
+```
+
+## Implementations
+
+* Spec-compliant polyfills using the old name of `.item()`: [Array.prototype.item](https://www.npmjs.com/package/array.prototype.item), [String.prototype.item](https://www.npmjs.com/package/string.prototype.item)
+
+## Web Incompatibility History
+
+The original iteration of this proposal proposed the name of the method to be `.item()`. Unfortunately, this was found out to be not web compatible due. Libraries, notably YUI2 and YUI3, were duck-typing objects to be DOM collections based on the presence of a `.item` property. Please see [#28](https://github.com/tc39/proposal-relative-indexing-method/issues/28), [#31](https://github.com/tc39/proposal-relative-indexing-method/issues/31), and [#32](https://github.com/tc39/proposal-relative-indexing-method/issues/32) for more details.
+
+Captured below is the original motivation for choosing the `.item()` name and the original concerns.
 
 ### DOM Justifications
 
@@ -77,10 +125,7 @@ Assuming this proposal is adopted, the following legacy interfaces should be upg
 
 (maybe others, list is ongoing)
 
-
-
-Possible Issues
----------------
+### Possible Issues
 
 The obvious looming issue with this, as with any addition to the built-ins, is the possibility that the name `.item()` is already added to these classes' prototypes by a framework with an incompatible definition, and added using one of the fragile patterns that avoids clobbering built-in names, so that code depending on the framework's definition will then break when it's instead given the new built-in definition.
 
@@ -117,39 +162,3 @@ We could potentially preview any of these changes before attempting to accept th
 In particular, testing negative indexes would be fairly simple, just requiring a change to `signed long` and an extra line in the algorithms of the methods.
 
 Testing returning `undefined` is also plausible; tho still slightly awkward to *express* in WebIDL (requiring the return type to be written as `any`), it's a tiny change to the algorithms of the methods.
-
-Proposed Edits
---------------
-
-<https://tc39.github.io/proposal-item-method/>
-
-Polyfill
---------
-
-(Rough polyfill; correctly implements the behavior for well-behaved objects, but not guaranteed to match spec behavior precisely for edge cases, like calling the method on `undefined`.)
-
-```js
-function item(n) {
-	// ToInteger() abstract op
-	n = Math.trunc(n) || 0;
-	// Allow negative indexing from the end
-	if(n < 0) n += this.length;
-	// OOB access is guaranteed to return undefined
-	if(n < 0 || n >= this.length) return undefined;
-	// Otherwise, this is just normal property access
-	return this[n];
-}
-
-// Other TypedArray constructors omitted for brevity.
-for (let C of [Array, String, Uint8Array]) {
-    Object.defineProperty(C.prototype, "item",
-                          { value: item,
-                            writable: true,
-                            enumerable: false,
-                            configurable: true });
-}
-```
-
-## Implementations
-
-* Spec-compliant polyfills: [Array.prototype.item](https://www.npmjs.com/package/array.prototype.item), [String.prototype.item](https://www.npmjs.com/package/string.prototype.item)
