@@ -81,6 +81,8 @@ for (let C of [Array, String, Uint8Array]) {
 
 ## Implementations
 
+* A spec-compliant polyfill is available in the [core-js](https://github.com/zloirock/core-js) library. You can find it in the [ECMAScript proposals section](https://github.com/zloirock/core-js#relative-indexing-method).
+
 * Spec-compliant polyfills using the old name of `.item()`: [Array.prototype.item](https://www.npmjs.com/package/array.prototype.item), [String.prototype.item](https://www.npmjs.com/package/string.prototype.item)
 
 ## Web Incompatibility History
